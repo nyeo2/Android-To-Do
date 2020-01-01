@@ -33,7 +33,5 @@ abstract class EntryRoomDatabase : RoomDatabase() {
                 return instance
             }
         }
-
-
     }
 }

@@ -8,7 +8,7 @@ const val EVENT = 1
 const val NOTE = 2
 
 @Entity(tableName = "EntryTable")
-class Entry(var type: Int, var text: String){
+class Entry(var type: Int, var text: String, var position: Int){
 
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

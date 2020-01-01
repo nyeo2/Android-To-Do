@@ -32,11 +32,12 @@ class MainActivity : AppCompatActivity() {
         recyclerAdapter = Adapter(mainViewModel)
         recyclerView.adapter = recyclerAdapter
 
-        val touchHelper = ItemTouchHelper(ItemMoveCallback(recyclerAdapter, mainViewModel))
+        val touchHelper = ItemTouchHelper(ItemMoveCallback(recyclerAdapter))
         touchHelper.attachToRecyclerView(recyclerView)
 
         this.findViewById<Button>(R.id.enter_button).setOnClickListener {
-            mainViewModel.insert(Entry(EVENT, editText.text.toString()))
+            mainViewModel.insert(editText.text.toString())
+            editText.text.clear()
         }
     }
 }

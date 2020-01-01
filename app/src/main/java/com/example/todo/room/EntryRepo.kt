@@ -10,14 +10,15 @@ class EntryRepo(private val Dao: DbDao) {
     suspend fun insert(entry: Entry) {
         Dao.insert(entry)
     }
-    suspend fun delete(id: Int){
-        Dao.delete(id)
+    suspend fun delete(position: Int) {
+        Dao.delete(position)
     }
-    suspend fun next(id:Int){
-        Dao.next(id)
+    suspend fun next(position: Int){
+        Dao.next(position)
     }
 
-    suspend fun swap(fromId: Int, toId: Int){
-        Dao.swap(fromId, toId)
+    suspend fun swap(from: Int, to: Int){
+        Dao.swap(from, to)
     }
+
 }

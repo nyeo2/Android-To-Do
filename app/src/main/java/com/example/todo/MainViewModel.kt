@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: EntryRepo
+
     val entries: LiveData<List<Entry>>
 
     init {
@@ -19,19 +20,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         entries = repository.allEntries
     }
 
-    fun insert(entry: Entry) = viewModelScope.launch {
+    fun insert(text: String) = viewModelScope.launch {
+        val entry = Entry(EVENT, text, entries.value!!.size)
         repository.insert(entry)
     }
 
-    fun delete(id: Int) = viewModelScope.launch {
-        repository.delete(id)
+    fun delete(position: Int) = viewModelScope.launch {
+        repository.delete(position)
     }
 
-    fun next(id: Int) = viewModelScope.launch {
-        repository.next(id)
+    fun next(position: Int) = viewModelScope.launch {
+        repository.next(position)
     }
 
-    fun swap(fromId: Int, toId: Int) = viewModelScope.launch {
-        repository.swap(fromId, toId)
+    fun swap(from: Int, to: Int) = viewModelScope.launch {
+        repository.swap(from, to)
     }
+
 }

@@ -31,8 +31,7 @@ class Adapter(private val viewModel: MainViewModel) :
         }
 
         holder.bullet.setOnClickListener {
-            val id = viewModel.entries.value!![holder.adapterPosition].id
-            viewModel.next(id)
+            viewModel.next(holder.adapterPosition)
             this.notifyItemChanged(holder.adapterPosition)
         }
 
@@ -46,5 +45,13 @@ class Adapter(private val viewModel: MainViewModel) :
     fun setEntries(entries: List<Entry>){
         this.entries = ArrayList(entries)
         notifyDataSetChanged()
+    }
+
+    fun delete(position: Int){
+        viewModel.delete(position)
+    }
+
+    fun swap(from: Int, to: Int){
+        viewModel.swap(from, to)
     }
 }
