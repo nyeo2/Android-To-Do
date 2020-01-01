@@ -47,5 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         recyclerAdapter.update()
         recyclerAdapter.deleteDB()
+        Timber.i("Delete and update stuff")
+
     }
 }

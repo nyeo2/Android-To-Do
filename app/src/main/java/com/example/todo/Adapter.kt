@@ -64,7 +64,6 @@ class Adapter(private val viewModel: MainViewModel) :
 
     fun insert(text: String){
         viewModel.insert(Entry(EVENT, text, entries.size))
-        notifyItemInserted(entries.size-1)
     }
 
     fun update(){
