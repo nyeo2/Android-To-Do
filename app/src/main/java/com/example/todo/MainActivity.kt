@@ -7,40 +7,36 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: Adapter
-    private lateinit var dataSet: MutableList<Entry>
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var editText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel(application)::class.java)
+        mainViewModel.entries.observe(this, Observer { entries -> entries?.let {recyclerAdapter.setEntries(it)} })
+
+
         recyclerView = this.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         editText = this.findViewById(R.id.editText)
-        dataSet = mutableListOf(Entry(Entry.Type.Event, "Eat food"), Entry(Entry.Type.Note, "Wash dishes"), Entry(Entry.Type.Task, "Fight fires"))
 
-        recyclerAdapter = Adapter(dataSet)
+        recyclerAdapter = Adapter(mainViewModel)
         recyclerView.adapter = recyclerAdapter
 
-        val touchHelper = ItemTouchHelper(ItemMoveCallback(recyclerAdapter))
+        val touchHelper = ItemTouchHelper(ItemMoveCallback(recyclerAdapter, mainViewModel))
         touchHelper.attachToRecyclerView(recyclerView)
 
         this.findViewById<Button>(R.id.enter_button).setOnClickListener {
-            addTask()
+            mainViewModel.insert(Entry(EVENT, editText.text.toString()))
         }
-    }
-    private fun addTask(){
-        dataSet.add(Entry(Entry.Type.Event, editText.text.toString()))
-        recyclerView.adapter?.notifyItemChanged(dataSet.size-1)
-        editText.setText("")
     }
 }

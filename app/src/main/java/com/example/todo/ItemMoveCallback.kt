@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ItemMoveCallback(private val adapter: Adapter): ItemTouchHelper.Callback() {
+class ItemMoveCallback(private val adapter: Adapter, private val viewModel: MainViewModel): ItemTouchHelper.Callback() {
     override fun getMovementFlags(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -14,7 +14,10 @@ class ItemMoveCallback(private val adapter: Adapter): ItemTouchHelper.Callback()
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        adapter.onRowMoved(viewHolder.adapterPosition, target.adapterPosition)
+        val targetId = viewModel.entries.value!![target.adapterPosition].id
+        val id = viewModel.entries.value!![viewHolder.adapterPosition].id
+
+        viewModel.swap(id, targetId)
         return true
     }
 
@@ -23,6 +26,8 @@ class ItemMoveCallback(private val adapter: Adapter): ItemTouchHelper.Callback()
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        adapter.delete(viewHolder.adapterPosition)
+        val id = viewModel.entries.value!![viewHolder.adapterPosition].id
+        viewModel.delete(id)
+        //adapter.delete(viewHolder.adapterPosition)
     }
 }

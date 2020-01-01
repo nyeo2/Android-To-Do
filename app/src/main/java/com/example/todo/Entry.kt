@@ -1,14 +1,15 @@
 package com.example.todo
 
-data class Entry(var type: Entry.Type, val text: String)  {
-    enum class Type{
-        Task, Event, Note
-    }
-    fun next(){
-        type = when (type){
-            Type.Task -> Type.Event
-            Type.Event -> Type.Note
-            Type.Note -> Type.Task
-        }
-    }
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+const val TASK = 0
+const val EVENT = 1
+const val NOTE = 2
+
+@Entity(tableName = "EntryTable")
+class Entry(var type: Int, var text: String){
+
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
 }
