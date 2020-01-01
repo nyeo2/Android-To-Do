@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.plant(Timber.DebugTree())
         setContentView(R.layout.activity_main)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel(application)::class.java)
         mainViewModel.entries.observe(this, Observer { entries -> entries?.let {recyclerAdapter.setEntries(it)} })
@@ -36,8 +38,14 @@ class MainActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(recyclerView)
 
         this.findViewById<Button>(R.id.enter_button).setOnClickListener {
-            mainViewModel.insert(editText.text.toString())
+            recyclerAdapter.insert(editText.text.toString())
             editText.text.clear()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        recyclerAdapter.update()
+        recyclerAdapter.deleteDB()
     }
 }

@@ -20,21 +20,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         entries = repository.allEntries
     }
 
-    fun insert(text: String) = viewModelScope.launch {
-        val entry = Entry(EVENT, text, entries.value!!.size)
+    fun insert(entry: Entry) = viewModelScope.launch{
         repository.insert(entry)
     }
 
-    fun delete(position: Int) = viewModelScope.launch {
-        repository.delete(position)
+    fun update(entry:Entry) = viewModelScope.launch {
+        repository.update(entry)
     }
 
-    fun next(position: Int) = viewModelScope.launch {
-        repository.next(position)
-    }
-
-    fun swap(from: Int, to: Int) = viewModelScope.launch {
-        repository.swap(from, to)
+    fun delete(entry:Entry) = viewModelScope.launch {
+        repository.delete(entry)
     }
 
 }
