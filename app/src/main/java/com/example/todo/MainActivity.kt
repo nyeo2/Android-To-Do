@@ -43,10 +43,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         recyclerAdapter.update()
-        recyclerAdapter.deleteDB()
         Timber.i("Delete and update stuff")
 
     }

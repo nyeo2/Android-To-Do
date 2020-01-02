@@ -19,6 +19,6 @@ interface DbDao {
     @Query("SELECT * from entryTable ORDER BY position ASC")
     fun getEntries(): LiveData<List<Entry>>
 
-
-
+    @Query("UPDATE entryTable SET type = (type + 1) % 3 where id = :id")
+    suspend fun next(id: Int)
 }

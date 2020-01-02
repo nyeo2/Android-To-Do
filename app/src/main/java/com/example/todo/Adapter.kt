@@ -12,7 +12,6 @@ class Adapter(private val viewModel: MainViewModel) :
         RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     private var entries = ArrayList<Entry>()
-    private var deleted = ArrayList<Entry>()
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val bullet: TextView = v.findViewById(R.id.bullet)
@@ -34,6 +33,7 @@ class Adapter(private val viewModel: MainViewModel) :
         }
 
         holder.bullet.setOnClickListener {
+            viewModel.next(entries[position])
             this.notifyItemChanged(holder.adapterPosition)
         }
 
@@ -50,9 +50,11 @@ class Adapter(private val viewModel: MainViewModel) :
     }
 
     fun delete(position:Int) {
-        deleted.add(entries[position])
+        /**deleted.add(entries[position])
         entries.removeAt(position)
-        notifyItemRemoved(position)
+        notifyItemRemoved(position)*/
+
+        viewModel.delete(entries[position])
     }
 
     fun swap(from:Int, to:Int) {
@@ -73,11 +75,5 @@ class Adapter(private val viewModel: MainViewModel) :
         }
     }
 
-    fun deleteDB(){
-        if (deleted != null) {
-            for (i in 0 until deleted.size) {
-                viewModel.delete(deleted[i])
-            }
-        }
-    }
+
 }

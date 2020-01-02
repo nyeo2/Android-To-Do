@@ -7,15 +7,12 @@ import androidx.room.RoomDatabase
 import com.example.todo.Entry
 
 
-// Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Entry::class], version = 1, exportSchema = false)
 abstract class EntryRoomDatabase : RoomDatabase() {
 
     abstract fun dao(): DbDao
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: EntryRoomDatabase? = null
 

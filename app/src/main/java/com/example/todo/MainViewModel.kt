@@ -1,14 +1,12 @@
 package com.example.todo
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.todo.room.EntryRepo
 import com.example.todo.room.EntryRoomDatabase
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -32,6 +30,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun delete(entry:Entry) = viewModelScope.launch {
         repository.delete(entry)
+    }
+
+    fun next(entry: Entry) = viewModelScope.launch {
+        repository.next(entry)
     }
 
 }

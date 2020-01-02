@@ -19,4 +19,7 @@ class EntryRepo(private val Dao: DbDao) {
         Dao.update(entry)
     }
 
+    suspend fun next(entry:Entry) {
+        Dao.next(entry.id)
+    }
 }
